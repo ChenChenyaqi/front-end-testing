@@ -8,19 +8,17 @@
 </template>
 
 <script setup lang="ts">
-import { TodoItem, useTodoStore } from "../stores/todo";
+import { TodoItem, useTodoStore } from "../stores/todo"
 
 interface Props {
-  id: number;
+  todoItem: TodoItem
 }
-const props = defineProps<Props>();
+const props = defineProps<Props>()
 
-const todoStore = useTodoStore();
-
-const todoItem = todoStore.findTodo(props.id) as TodoItem;
+const todoStore = useTodoStore()
 
 function handleRemove() {
-  todoStore.removeTodo(props.id);
+  todoStore.removeTodo(props.todoItem.id)
 }
 </script>
 

@@ -1,42 +1,29 @@
-import { test, expect } from "vitest";
-import { reset, useTodoStore } from "./todo";
-import { setActivePinia, createPinia } from "pinia";
+import { beforeEach, describe, it, expect } from "vitest"
+import { useTodoStore } from "./todo"
+import { setActivePinia, createPinia } from "pinia"
+import { createTodo } from "./helpers"
+describe("test todo", () => {
+  beforeEach(() => {
+    setActivePinia(createPinia())
+  })
+  it("可以正常新增todo", () => {
+    const { todos } = useTodoStore()
+    const todo = createTodo("abc")
+    expect(todo.title).toBe("abc")
+    expect(todos[0]).toEqual(todo)
+  })
 
-test("add todo", () => {
-  // 准备数据
-  setActivePinia(createPinia());
-  const todoStore = useTodoStore();
-  const title = "吃饭";
+  it("根据id能够查找到一个todo", () => {
+    const { findTodo } = useTodoStore()
+    const todo = createTodo("abc")
+    const targetTodo = findTodo(todo.id)
+    expect(todo).toEqual(targetTodo)
+  })
 
-  // 调用
-  todoStore.addTodo(title);
-
-  // 验证
-  expect(todoStore.todos[0].title).toBe(title);
-
-});
-test("add todo with reverse", () => {
-  // 准备数据
-  setActivePinia(createPinia());
-  const todoStore = useTodoStore();
-  const title = "reverse:heihei";
-
-  // 调用
-  todoStore.addTodo(title);
-
-  // 验证
-  expect(todoStore.todos[0].title).toBe("iehieh");
-});
-
-test("remove todo", () => {
-  // 准备数据
-  setActivePinia(createPinia());
-  const todoStore = useTodoStore();
-  const todo = todoStore.addTodo("吃饭")  // round-trip
-
-  // 调用
-  todoStore.removeTodo(todo!.id);
-
-  // 验证
-  expect(todoStore.todos.length).toBe(0);
-});
+  it("根据id删除一个todo", () => {
+    const todoStore = useTodoStore()
+    const todo = createTodo("abc")
+    todoStore.removeTodo(todo.id)
+    expect(todoStore.todos.length).toBe(0)
+  })
+})

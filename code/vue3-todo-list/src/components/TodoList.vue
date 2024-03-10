@@ -7,7 +7,7 @@
     <div>
       <ul>
         <li v-for="todoItem in todoStore.todos" :key="todoItem.id">
-          <TodoItem :id="todoItem.id"></TodoItem>
+          <TodoItem :todoItem="todoItem"></TodoItem>
         </li>
       </ul>
     </div>
@@ -15,16 +15,16 @@
 </template>
 
 <script setup lang="ts">
-import TodoItem from "./TodoItem.vue";
-import { ref } from "vue";
-import { useTodoStore } from "../stores/todo";
+import TodoItem from "./TodoItem.vue"
+import { ref } from "vue"
+import { useTodoStore } from "../stores/todo"
 
-const todoStore = useTodoStore();
-const newTodo = ref("");
+const todoStore = useTodoStore()
+const newTodo = ref("")
 
 function handleAddTodo() {
-  todoStore.addTodo(newTodo.value);
-  newTodo.value = "";
+  todoStore.addTodo(newTodo.value)
+  newTodo.value = ""
 }
 </script>
 
